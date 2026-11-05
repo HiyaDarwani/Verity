@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Verity – Online Examinations (Frontend Demo)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8F9FC;--sf:#fff;--lav:#E9E7F8;--blue:#E5EFFB;--mint:#E3F3EA;--peach:#FBEADF;--tx:#263238;--tx2:#697386;--bd:#E4E7EC;--pri:#7774B8;--ok:#3d7a5a;--warn:#9a6b1c;--err:#b4504f;--errbg:#f8e6e6;--amb:#fbf0d9;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1d24;--sf:#23262f;--lav:#33324a;--blue:#26364a;--mint:#25382f;--peach:#43352c;--tx:#e8eaee;--tx2:#a0a7b4;--bd:#363a45;--pri:#9b98dc;--ok:#7fcaa0;--warn:#e0b469;--err:#e58a89;--errbg:#43292a;--amb:#3f3524}}
+:root[data-theme="dark"]{--bg:#1b1d24;--sf:#23262f;--lav:#33324a;--blue:#26364a;--mint:#25382f;--peach:#43352c;--tx:#e8eaee;--tx2:#a0a7b4;--bd:#363a45;--pri:#9b98dc;--ok:#7fcaa0;--warn:#e0b469;--err:#e58a89;--errbg:#43292a;--amb:#3f3524}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 Inter,system-ui,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{margin:0 0 .5rem;font-weight:600}h1{font-size:1.6rem}h2{font-size:1.15rem}h3{font-size:1rem}
+p{margin:.3rem 0}.mut{color:var(--tx2)}.sm{font-size:.85rem}
+.btn{background:var(--pri);color:#fff;border:1px solid var(--pri);padding:.5rem 1rem;border-radius:6px;cursor:pointer;font-weight:500}
+.btn.sec{background:var(--sf);color:var(--tx);border-color:var(--bd)}.btn.dng{background:var(--err);border-color:var(--err);color:#fff}
+.btn.sm2{padding:.25rem .6rem;font-size:.85rem}.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn:focus-visible,input:focus,select:focus,textarea:focus{outline:2px solid var(--pri);outline-offset:1px}
+label{display:block;font-weight:500;font-size:.88rem;margin:.8rem 0 .25rem}
+input,select,textarea{width:100%;padding:.5rem .65rem;border:1px solid var(--bd);border-radius:6px;background:var(--sf)}
+input[type=checkbox],input[type=radio]{width:auto}
+.err{color:var(--err);font-size:.82rem;margin-top:.2rem}
+.shell{display:flex;min-height:100vh}
+.side{width:220px;background:var(--sf);border-right:1px solid var(--bd);padding:1rem .75rem;flex-shrink:0}
+.side .nav{display:block;width:100%;text-align:left;background:none;border:0;padding:.5rem .7rem;border-radius:6px;cursor:pointer;color:var(--tx2);margin:2px 0}
+.side .nav.on{background:var(--lav);color:var(--tx);font-weight:500}
+.logo{font-weight:600;font-size:1.15rem;color:var(--pri);padding:.2rem .7rem 1rem}
+.main{flex:1;min-width:0}
+.top{display:flex;align-items:center;gap:.75rem;padding:.8rem 1.5rem;background:var(--sf);border-bottom:1px solid var(--bd)}
+.top h2{margin:0;flex:1}.menu{display:none}
+.pad{padding:1.5rem;max-width:1050px}
+.banner{background:var(--amb);color:var(--warn);padding:.4rem 1.5rem;font-size:.82rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.75rem;margin:1rem 0}
+.stat{padding:.9rem 1rem;border-radius:8px}.stat b{display:block;font-size:1.6rem}
+.tw{overflow-x:auto;border:1px solid var(--bd);border-radius:8px;background:var(--sf);margin:.5rem 0 1.25rem}
+table{width:100%;border-collapse:collapse;font-size:.9rem}th,td{text-align:left;padding:.6rem .8rem;border-bottom:1px solid var(--bd);white-space:nowrap}
+th{background:var(--bg);color:var(--tx2);font-weight:500;font-size:.8rem}tr:last-child td{border:0}
+.bdg{display:inline-block;padding:.05rem .55rem;border-radius:99px;font-size:.76rem;font-weight:500}
+.b-g{background:var(--mint);color:var(--ok)}.b-b{background:var(--blue);color:var(--pri)}.b-a{background:var(--amb);color:var(--warn)}.b-r{background:var(--errbg);color:var(--err)}.b-n{background:var(--lav);color:var(--tx2)}
+.bar{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:.5rem 0}.bar input,.bar select{width:auto;min-width:150px}.sp{flex:1}
+.ov{position:fixed;inset:0;background:rgba(38,50,56,.45);display:flex;align-items:center;justify-content:center;padding:1rem;z-index:50}
+.dlg{background:var(--sf);border-radius:10px;padding:1.25rem;width:100%;max-width:440px;max-height:90vh;overflow:auto}
+.dlg .bar{justify-content:flex-end;margin-top:1rem}
+.toast{position:fixed;bottom:calc(1rem + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:.5rem 1rem;border-radius:6px;z-index:60;font-size:.88rem}
+.hero{max-width:720px;margin:0 auto;padding:5rem 1.5rem 2rem;text-align:center}.hero h1{font-size:2.3rem}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;max-width:900px;margin:1rem auto 3rem;padding:0 1.5rem}
+.feat div{padding:1.1rem;border-radius:8px}
+.lg{max-width:400px;margin:3rem auto;padding:1.5rem;background:var(--sf);border:1px solid var(--bd);border-radius:10px}
+.pw{position:relative}.pw button{position:absolute;right:6px;top:5px;background:none;border:0;color:var(--pri);cursor:pointer;font-size:.8rem}
+.roles{display:flex;gap:.4rem}.roles label{flex:1;margin:0;border:1px solid var(--bd);border-radius:6px;padding:.4rem;text-align:center;cursor:pointer;font-weight:400}
+.roles input{display:none}.roles input:checked+span{font-weight:600;color:var(--pri)}.roles label:has(input:checked){background:var(--lav);border-color:var(--pri)}
+.ex{display:grid;grid-template-columns:1fr 210px;gap:1.5rem}
+.qn{display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem}
+.qn button{padding:.4rem;border:1px solid var(--bd);border-radius:6px;background:var(--sf);cursor:pointer}
+.qn .ans{background:var(--mint)}.qn .cur{border:2px solid var(--pri);font-weight:600}
+.opt{display:flex;gap:.6rem;align-items:center;padding:.6rem .8rem;border:1px solid var(--bd);border-radius:6px;margin:.4rem 0;cursor:pointer;background:var(--sf);font-weight:400;font-size:1rem}
+.opt:has(input:checked){background:var(--lav);border-color:var(--pri)}
+.tm{font-weight:600;font-variant-numeric:tabular-nums;background:var(--blue);padding:.25rem .7rem;border-radius:6px}
+.row{display:flex;gap:.5rem;align-items:center}
+@media(max-width:800px){.side{position:fixed;z-index:40;height:100%;transform:translateX(-100%);transition:transform .15s}.side.open{transform:none}.menu{display:inline-block}.ex{grid-template-columns:1fr}.pad{padding:1rem}.top{padding:.7rem 1rem}}
+</style></head><body><div id="app"></div>
+<script>
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const S={user:null,page:'landing',exams:[
+{id:'e1',title:'Data Structures Mid-Term',subject:'Computer Science',date:'2026-11-02T10:00',dur:30,marks:40,status:'Active',qs:[
+{t:'mcq',text:'Which data structure uses LIFO order?',opts:['Queue','Stack','Heap','Graph'],ok:1},
+{t:'mcq',text:'Average time complexity of binary search?',opts:['O(n)','O(log n)','O(n log n)','O(1)'],ok:1},
+{t:'mcq',text:'Which traversal of a BST gives sorted output?',opts:['Pre-order','Post-order','In-order','Level-order'],ok:2},
+{t:'sub',text:'Explain the difference between an array and a linked list.'}]},
+{id:'e2',title:'Database Systems Quiz',subject:'Computer Science',date:'2026-11-10T14:00',dur:45,marks:30,status:'Scheduled',qs:[{t:'mcq',text:'Which key uniquely identifies a row?',opts:['Foreign','Primary','Composite only','None'],ok:1}]},
+{id:'e3',title:'Operating Systems Test',subject:'Computer Science',date:'2026-10-15T09:00',dur:60,marks:50,status:'Completed',qs:[]},
+{id:'e4',title:'Networks Unit Test',subject:'Computer Science',date:'2026-11-20T11:00',dur:40,marks:25,status:'Draft',qs:[]}],
+users:[{id:1,name:'Asha Rao',email:'asha@demo.edu',role:'Student',on:true},{id:2,name:'Rohan Mehta',email:'rohan@demo.edu',role:'Student',on:true},{id:3,name:'Dr. Iyer',email:'iyer@demo.edu',role:'Examiner',on:true},{id:4,name:'Meera Shah',email:'meera@demo.edu',role:'Student',on:false},{id:5,name:'Admin User',email:'admin@demo.edu',role:'Administrator',on:true}],
+res:[{id:1,stu:'Asha Rao',exam:'e3',st:'Graded',sc:'38/50'},{id:2,stu:'Rohan Mehta',exam:'e3',st:'Graded',sc:'41/50'},{id:3,stu:'Meera Shah',exam:'e3',st:'Pending review',sc:'—'}],
+ev:[{id:1,stu:'Rohan Mehta',time:'09:14:22',type:'Tab switch',rs:'Open'},{id:2,stu:'Meera Shah',time:'09:21:05',type:'Face not visible',rs:'Open'},{id:3,stu:'Meera Shah',time:'09:33:48',type:'Multiple faces detected',rs:'Open'},{id:4,stu:'Rohan Mehta',time:'09:40:10',type:'Unusual activity flag',rs:'Reviewed'}],
+done:{},q:'',f:'',modal:null,toast:'',nav:false,att:null,tid:null};
+const NAV={Student:[['dash','Dashboard'],['myres','My Results']],Examiner:[['dash','Dashboard'],['exams','Exams'],['results','Results'],['proctor','Proctoring']],Administrator:[['dash','Dashboard'],['users','Users']]};
+const bc=s=>({Active:'b-g',Available:'b-g',Scheduled:'b-b',Upcoming:'b-b',Draft:'b-n',Completed:'b-n','In Progress':'b-a',Open:'b-a',Reviewed:'b-g',Graded:'b-g','Pending review':'b-a'}[s]||'b-n');
+const bd=s=>`<span class="bdg ${bc(s)}">${s}</span>`;
+const fd=d=>new Date(d).toLocaleString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+const ex=id=>S.exams.find(e=>e.id==id);
+const go=(p)=>{S.page=p;S.q='';S.f='';S.nav=false;R();window.scrollTo(0,0)};
+const say=m=>{S.toast=m;R();setTimeout(()=>{S.toast='';R()},2200)};
+const $v=id=>document.getElementById(id).value.trim();
+const sx=e=>S.done[e.id]?'Completed':({Active:'Available',Scheduled:'Upcoming',Completed:'Completed'}[e.status]);
+function login(){const em=$v('em'),pw=$v('pw'),r=document.querySelector('[name=role]:checked').value;let er='';
+if(!/^\S+@\S+\.\S+$/.test(em))er='Enter a valid email address.';else if(pw.length<4)er='Password must be at least 4 characters.';
+if(er){document.getElementById('le').textContent=er;return}
+S.user={name:{Student:'Asha Rao',Examiner:'Dr. Iyer',Administrator:'Admin User'}[r],role:r,email:em};go('dash')}
+function demo(r){S.user={name:{Student:'Asha Rao',Examiner:'Dr. Iyer',Administrator:'Admin User'}[r],role:r,email:r.toLowerCase()+'@demo.edu'};go('dash')}
+function logout(){clearInterval(S.tid);S.user=null;S.att=null;go('login')}
+function confirmBox(msg,fn,danger){S.modal={c:1,msg,fn,danger};R()}
+function R(){const a=document.getElementById('app');
+let h=S.page=='landing'?landing():S.page=='login'?loginP():shell();
+a.innerHTML=h+(S.modal?modal():'')+(S.toast?`<div class="toast" role="status">${esc(S.toast)}</div>`:'')}
+function landing(){return `<div class="row" style="padding:1rem 1.5rem"><b style="color:var(--pri);font-size:1.2rem">Verity</b><span class="sp"></span><button class="btn sec" onclick="go('login')">Sign In</button></div>
+<div class="hero"><h1>Examinations you can trust.</h1><p class="mut">Verity is an online examination and proctoring platform where students take exams, examiners manage them, and administrators oversee the platform.</p><p style="margin-top:1.5rem"><button class="btn" onclick="go('login')">Get Started</button></p></div>
+<div class="feat"><div style="background:var(--blue)"><h3>Online examinations</h3><p class="sm mut">Timed exams with MCQ and written questions.</p></div><div style="background:var(--lav)"><h3>Exam management</h3><p class="sm mut">Create, schedule and publish exams in minutes.</p></div><div style="background:var(--mint)"><h3>Proctoring</h3><p class="sm mut">Review flagged events for each attempt.</p></div></div>
+<p class="sm mut" style="text-align:center;padding:1.5rem;border-top:1px solid var(--bd)">© 2026 Verity · Frontend demonstration</p>`}
+function loginP(){return `<div class="banner">Frontend demo: no real authentication or backend. Any valid email and password works.</div><div class="lg"><h1 style="color:var(--pri)">Verity</h1><p class="mut">Sign in to continue</p>
+<label for="em">Email</label><input id="em" type="email" value="">
+<label for="pw">Password</label><div class="pw"><input id="pw" type="password"><button type="button" onclick="const i=pw;i.type=i.type=='password'?'text':'password';this.textContent=i.type=='password'?'Show':'Hide'">Show</button></div>
+<label>Role</label><div class="roles">${['Student','Examiner','Administrator'].map((r,i)=>`<label><input type="radio" name="role" value="${r}" ${i?'':'checked'}><span>${r}</span></label>`).join('')}</div>
+<div class="err" id="le" role="alert"></div><p><button class="btn" style="width:100%;margin-top:1rem" onclick="login()">Sign in</button></p>
+<p class="sm mut" style="margin-top:1rem">Or explore a demo:</p><div class="row">${['Student','Examiner','Administrator'].map(r=>`<button class="btn sec sm2" onclick="demo('${r}')">${r}</button>`).join('')}</div></div>`}
+function shell(){const u=S.user,p=S.page;
+if(S.att&&(p=='take'))return take();
+const nav=NAV[u.role],cur=p.split(':')[0];
+const t=({dash:'Dashboard',myres:'My Results',exams:'Exams',results:'Results',proctor:'Proctoring',users:'Users',exam:'Exam details',instr:'Exam instructions',done:'Submitted'})[cur]||'';
+return `<div class="shell"><aside class="side ${S.nav?'open':''}"><div class="logo">Verity</div>${nav.map(([k,l])=>`<button class="nav ${k==cur||(k=='exams'&&cur=='exam')?'on':''}" onclick="go('${k}')">${l}</button>`).join('')}</aside>
+<div class="main"><div class="banner">Frontend demo – sample data, no backend.</div><div class="top"><button class="btn sec sm2 menu" onclick="S.nav=!S.nav;R()" aria-label="Menu">☰</button><h2>${t}</h2><span class="sm mut">${esc(u.name)} · ${u.role}</span><button class="btn sec sm2" onclick="logout()">Log out</button></div><div class="pad">${page()}</div></div></div>`}
+function page(){const r=S.user.role,p=S.page.split(':');
+if(p[0]=='instr')return instr(p[1]);if(p[0]=='exam')return examDetail(p[1]);if(p[0]=='done')return doneP(p[1]);
+return ({Student:{dash:sDash,myres:myRes},Examiner:{dash:eDash,exams:eExams,results:eRes,proctor:eProc},Administrator:{dash:aDash,users:aUsers}})[r][p[0]]()}
+function stat(n,l,c){return `<div class="stat" style="background:var(--${c})"><b>${n}</b><span class="sm mut">${l}</span></div>`}
+function sDash(){const rows=S.exams.filter(e=>e.status!='Draft');return `<h1>Welcome back, Asha</h1><p class="mut">Here are your exams.</p>
+<h2 style="margin-top:1.25rem">Exams</h2><div class="tw"><table><tr><th>Exam</th><th>Date</th><th>Duration</th><th>Status</th><th></th></tr>${rows.map(e=>{const s=sx(e);return `<tr><td>${esc(e.title)}<div class="sm mut">${esc(e.subject)}</div></td><td>${fd(e.date)}</td><td>${e.dur} min</td><td>${bd(s)}</td><td>${s=='Available'?`<button class="btn sm2" onclick="go('instr:${e.id}')">Start exam</button>`:`<button class="btn sec sm2" onclick="go('instr:${e.id}')">View details</button>`}</td></tr>`}).join('')}</table></div>
+<h2>Recent results</h2>${resTbl(true)}`}
+function resTbl(mine){const d=[{exam:'e3',st:'Graded',sc:'38/50'}];Object.entries(S.done).forEach(([k,v])=>d.unshift({exam:k,st:v.sub?'Pending review':'Graded',sc:v.sc+(v.sub?' (MCQ only)':'')}));
+return `<div class="tw"><table><tr><th>Exam</th><th>Status</th><th>Score</th></tr>${d.map(x=>`<tr><td>${esc(ex(x.exam).title)}</td><td>${bd(x.st)}</td><td>${x.sc}</td></tr>`).join('')}</table></div>`}
+function myRes(){return `<h2>Your results</h2>${resTbl()}`}
+function instr(id){const e=ex(id),av=sx(e)=='Available';return `<h1>${esc(e.title)}</h1><p class="mut">${esc(e.subject)}</p><div class="grid">${stat(e.dur+' min','Duration','blue')}${stat(e.marks,'Total marks','lav')}${stat(e.qs.length,'Questions','mint')}</div>
+<h2>Instructions</h2><ul class="mut"><li>Answer every question; MCQs have one correct option.</li><li>The timer runs once you start. The exam submits when it ends.</li><li>Do not switch tabs (in a real deployment this would be flagged).</li></ul>
+${av?`<p><label class="opt" style="max-width:420px"><input type="checkbox" id="ack" onchange="startb.disabled=!this.checked"> I have read and understood the instructions.</label></p><div class="row"><button class="btn sec" onclick="go('dash')">Back</button><button class="btn" id="startb" disabled onclick="begin('${id}')">Start Exam</button></div>`:`<p class="bdg b-n">This exam is not available to start.</p><p><button class="btn sec" onclick="go('dash')">Back</button></p>`}`}
+function begin(id){const e=ex(id);if(!e.qs.length){say('This exam has no questions yet.');return}
+S.att={id,i:0,ans:{},left:e.dur*60};S.page='take';clearInterval(S.tid);S.tid=setInterval(()=>{S.att.left--;const t=document.getElementById('tm');if(t)t.textContent=fmt(S.att.left);if(S.att.left<=0)submit()},1000);R()}
+const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+function take(){const a=S.att,e=ex(a.id),q=e.qs[a.i];
+return `<div class="top"><h2>${esc(e.title)}</h2><span class="tm" id="tm">${fmt(a.left)}</span></div><div class="pad"><div class="ex"><div>
+<p class="sm mut">Question ${a.i+1} of ${e.qs.length}</p><h2>${esc(q.text)}</h2>
+${q.t=='mcq'?q.opts.map((o,k)=>`<label class="opt"><input type="radio" name="o" ${a.ans[a.i]===k?'checked':''} onchange="S.att.ans[${a.i}]=${k};R()"> ${esc(o)}</label>`).join(''):`<textarea rows="7" placeholder="Type your answer…" oninput="S.att.ans[${a.i}]=this.value;document.getElementById('sv').textContent='Saved locally'">${esc(a.ans[a.i]||'')}</textarea><p class="sm mut" id="sv"></p>`}
+<div class="bar" style="margin-top:1rem"><button class="btn sec" ${a.i?'':'disabled'} onclick="S.att.i--;R()">Previous</button><button class="btn sec" ${a.i<e.qs.length-1?'':'disabled'} onclick="S.att.i++;R()">Next</button><span class="sp"></span><button class="btn" onclick="confirmBox('Submit your exam? You cannot change answers afterwards.',submit)">Submit Exam</button></div></div>
+<div><h3>Questions</h3><div class="qn">${e.qs.map((_,k)=>`<button class="${k==a.i?'cur':''} ${a.ans[k]!==undefined&&a.ans[k]!==''?'ans':''}" onclick="S.att.i=${k};R()">${k+1}</button>`).join('')}</div><p class="sm mut" style="margin-top:.7rem">Green = answered · outlined = current</p></div></div></div>`}
+function submit(){clearInterval(S.tid);S.modal=null;const a=S.att,e=ex(a.id);let ok=0,m=0,sub=false;
+e.qs.forEach((q,k)=>{if(q.t=='mcq'){m++;if(a.ans[k]===q.ok)ok++}else sub=true});
+S.done[a.id]={sc:`${ok}/${m} MCQ`,ok,m,sub};S.att=null;go('done:'+a.id)}
+function doneP(id){const d=S.done[id];return `<h1>Exam submitted</h1><p class="mut">Your answers were captured in this browser session only (demo).</p>
+<div class="grid">${stat(d.sc,'Auto-calculated demo score','mint')}${d.sub?stat('Pending','Written answers need evaluation','peach'):''}</div><p class="sm mut">In the real system, final results would come from backend evaluation.</p><button class="btn" onclick="go('dash')">Back to dashboard</button>`}
+function eDash(){const c=s=>S.exams.filter(e=>e.status==s).length;return `<div class="bar"><h1 class="sp" style="margin:0">Overview</h1><button class="btn" onclick="exForm()">Create Exam</button></div>
+<div class="grid">${stat(c('Draft'),'Draft','n'.replace('n','lav'))}${stat(c('Scheduled'),'Scheduled','blue')}${stat(c('Active'),'Active','mint')}${stat(c('Completed'),'Completed','peach')}</div>
+<h2>Upcoming schedule</h2><div class="tw"><table><tr><th>Exam</th><th>Date</th><th>Status</th></tr>${S.exams.filter(e=>['Active','Scheduled'].includes(e.status)).map(e=>`<tr><td>${esc(e.title)}</td><td>${fd(e.date)}</td><td>${bd(e.status)}</td></tr>`).join('')}</table></div>`}
+function eExams(){const l=S.exams.filter(e=>e.title.toLowerCase().includes(S.q.toLowerCase())&&(!S.f||e.status==S.f));
+return `<div class="bar"><input placeholder="Search exams" value="${esc(S.q)}" oninput="S.q=this.value;R();const i=document.querySelector('.bar input');i.focus();i.setSelectionRange(99,99)"><select onchange="S.f=this.value;R()"><option value="">All statuses</option>${['Draft','Scheduled','Active','Completed'].map(s=>`<option ${S.f==s?'selected':''}>${s}</option>`).join('')}</select><span class="sp"></span><button class="btn" onclick="exForm()">Create Exam</button></div>
+<div class="tw"><table><tr><th>Title</th><th>Subject</th><th>Date</th><th>Marks</th><th>Qs</th><th>Status</th><th></th></tr>${l.length?l.map(e=>`<tr><td>${esc(e.title)}</td><td>${esc(e.subject)}</td><td>${fd(e.date)}</td><td>${e.marks}</td><td>${e.qs.length}</td><td>${bd(e.status)}</td><td class="row"><button class="btn sec sm2" onclick="go('exam:${e.id}')">View</button><button class="btn sec sm2" onclick="exForm('${e.id}')">Edit</button><button class="btn sec sm2" onclick="confirmBox('Delete “${esc(e.title)}”?',()=>{S.exams=S.exams.filter(x=>x.id!='${e.id}');S.modal=null;say('Exam deleted')},1)">Delete</button></td></tr>`).join(''):'<tr><td colspan="7" class="mut">No exams match your search.</td></tr>'}</table></div>`}
+function exForm(id){S.modal={f:'ex',id};R()}
+function saveEx(st){const t=$v('xt');if(!t||!$v('xs')||!$v('xd')){document.getElementById('xe').textContent='Title, subject and date are required.';return}
+const o={title:t,subject:$v('xs'),date:$v('xd'),dur:+$v('xu')||30,marks:+$v('xm')||0,status:st};const id=S.modal.id;
+if(id)Object.assign(ex(id),o);else S.exams.unshift({id:'e'+Date.now(),qs:[],...o});S.modal=null;say(id?'Exam updated':'Exam '+(st=='Draft'?'saved as draft':'published'));}
+function examDetail(id){const e=ex(id);return `<div class="bar"><button class="btn sec sm2" onclick="go('exams')">← All exams</button></div><h1>${esc(e.title)} ${bd(e.status)}</h1><p class="mut">${esc(e.subject)} · ${fd(e.date)} · ${e.dur} min · ${e.marks} marks</p>
+<div class="bar"><h2 class="sp" style="margin:0">Questions (${e.qs.length})</h2><button class="btn sec" onclick="S.modal={f:'q',id:'${id}'};R()">Add question</button><button class="btn sec" onclick="S.modal={f:'pv',id:'${id}'};R()">Preview</button></div>
+${e.qs.length?`<div class="tw"><table><tr><th>#</th><th>Type</th><th>Question</th><th></th></tr>${e.qs.map((q,k)=>`<tr><td>${k+1}</td><td>${q.t=='mcq'?'MCQ':'Written'}</td><td style="white-space:normal">${esc(q.text)}${q.t=='mcq'?`<div class="sm mut">Correct: ${esc(q.opts[q.ok])}</div>`:''}</td><td><button class="btn sec sm2" onclick="ex('${id}').qs.splice(${k},1);R()">Remove</button></td></tr>`).join('')}</table></div>`:'<p class="mut">No questions yet. Add your first question.</p>'}`}
+function addQ(){const e=ex(S.modal.id),t=document.getElementById('qt').value,x=$v('qx');
+if(!x){document.getElementById('qe').textContent='Enter the question text.';return}
+if(t=='mcq'){const o=[0,1,2,3].map(i=>$v('o'+i));if(o.some(v=>!v)){document.getElementById('qe').textContent='Fill in all four options.';return}e.qs.push({t:'mcq',text:x,opts:o,ok:+$v('qc')})}else e.qs.push({t:'sub',text:x});
+S.modal=null;say('Question added')}
+function eRes(){return `<div class="tw"><table><tr><th>Student</th><th>Exam</th><th>Status</th><th>Score</th><th></th></tr>${S.res.map(r=>`<tr><td>${r.stu}</td><td>${esc(ex(r.exam).title)}</td><td>${bd(r.st)}</td><td>${r.sc}</td><td><button class="btn sec sm2" onclick="S.modal={f:'rd',id:${r.id}};R()">View details</button></td></tr>`).join('')}</table></div>`}
+function eProc(){return `<p class="mut">Sample events only. Real webcam monitoring and detection belong to the backend phase.</p><div class="tw"><table><tr><th>Student</th><th>Time</th><th>Event</th><th>Review</th><th></th></tr>${S.ev.map(v=>`<tr><td>${v.stu}</td><td>${v.time}</td><td>${v.type}</td><td>${bd(v.rs)}</td><td><button class="btn sec sm2" onclick="S.ev.find(x=>x.id==${v.id}).rs='${v.rs=='Open'?'Reviewed':'Open'}';R()">Mark ${v.rs=='Open'?'reviewed':'open'}</button></td></tr>`).join('')}</table></div>`}
+function aDash(){const n=r=>S.users.filter(u=>u.role==r).length;return `<div class="grid">${stat(n('Student'),'Students','blue')}${stat(n('Examiner'),'Examiners','lav')}${stat(S.exams.length,'Exams','mint')}</div>
+<h2>Recent activity</h2><div class="tw"><table><tr><th>Activity</th><th>When</th></tr><tr><td>Dr. Iyer published “Data Structures Mid-Term”</td><td>2 hours ago</td></tr><tr><td>Meera Shah’s account was deactivated</td><td>Yesterday</td></tr><tr><td>Rohan Mehta registered</td><td>3 days ago</td></tr></table></div><button class="btn" onclick="go('users')">Manage users</button>`}
+function aUsers(){const l=S.users.filter(u=>(u.name+u.email).toLowerCase().includes(S.q.toLowerCase())&&(!S.f||u.role==S.f));
+return `<div class="bar"><input placeholder="Search users" value="${esc(S.q)}" oninput="S.q=this.value;R();const i=document.querySelector('.bar input');i.focus();i.setSelectionRange(99,99)"><select onchange="S.f=this.value;R()"><option value="">All roles</option>${['Student','Examiner','Administrator'].map(s=>`<option ${S.f==s?'selected':''}>${s}</option>`).join('')}</select><span class="sp"></span><button class="btn" onclick="S.modal={f:'u'};R()">Add user</button></div>
+<div class="tw"><table><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th></th></tr>${l.length?l.map(u=>`<tr><td>${esc(u.name)}</td><td>${esc(u.email)}</td><td>${u.role}</td><td>${bd(u.on?'Active':'Draft').replace('Draft','Inactive')}</td><td class="row"><button class="btn sec sm2" onclick="S.modal={f:'u',id:${u.id}};R()">Edit</button><button class="btn sec sm2" onclick="confirmBox('${u.on?'Deactivate':'Activate'} ${esc(u.name)}?',()=>{S.users.find(x=>x.id==${u.id}).on=${!u.on};S.modal=null;say('User updated')})">${u.on?'Deactivate':'Activate'}</button></td></tr>`).join(''):'<tr><td colspan="5" class="mut">No users found.</td></tr>'}</table></div>`}
+function saveU(){const n=$v('un'),m=$v('um');if(!n||!/^\S+@\S+\.\S+$/.test(m)){document.getElementById('ue').textContent='Enter a name and a valid email.';return}
+const id=S.modal.id,o={name:n,email:m,role:$v('ur')};if(id)Object.assign(S.users.find(u=>u.id==id),o);else S.users.push({id:Date.now(),on:true,...o});S.modal=null;say(id?'User updated':'User added')}
+function modal(){const m=S.modal;let b='';
+if(m.c)return `<div class="ov"><div class="dlg" role="dialog"><h3>Please confirm</h3><p>${m.msg}</p><div class="bar"><button class="btn sec" onclick="S.modal=null;R()">Cancel</button><button class="btn ${m.danger?'dng':''}" onclick="S.modal.fn()">Confirm</button></div></div></div>`;
+if(m.f=='ex'){const e=m.id?ex(m.id):{title:'',subject:'',date:'',dur:30,marks:50};b=`<h3>${m.id?'Edit exam':'Create exam'}</h3><label for="xt">Title</label><input id="xt" value="${esc(e.title)}"><label for="xs">Subject</label><input id="xs" value="${esc(e.subject)}"><label for="xd">Date and time</label><input id="xd" type="datetime-local" value="${e.date}"><div class="row"><div style="flex:1"><label for="xu">Duration (min)</label><input id="xu" type="number" min="5" value="${e.dur}"></div><div style="flex:1"><label for="xm">Total marks</label><input id="xm" type="number" min="1" value="${e.marks}"></div></div><div class="err" id="xe"></div><div class="bar"><button class="btn sec" onclick="S.modal=null;R()">Cancel</button><button class="btn sec" onclick="saveEx('Draft')">Save draft</button><button class="btn" onclick="saveEx('Scheduled')">Publish</button></div>`}
+if(m.f=='q')b=`<h3>Add question</h3><label for="qt">Type</label><select id="qt" onchange="document.getElementById('mq').style.display=this.value=='mcq'?'block':'none'"><option value="mcq">Multiple choice</option><option value="sub">Written answer</option></select><label for="qx">Question</label><textarea id="qx" rows="2"></textarea><div id="mq">${[0,1,2,3].map(i=>`<label for="o${i}">Option ${i+1}</label><input id="o${i}">`).join('')}<label for="qc">Correct option</label><select id="qc">${[1,2,3,4].map((n,i)=>`<option value="${i}">Option ${n}</option>`).join('')}</select></div><div class="err" id="qe"></div><div class="bar"><button class="btn sec" onclick="S.modal=null;R()">Cancel</button><button class="btn" onclick="addQ()">Add</button></div>`;
+if(m.f=='pv'){const e=ex(m.id);b=`<h3>Preview: ${esc(e.title)}</h3>${e.qs.map((q,k)=>`<p><b>${k+1}. ${esc(q.text)}</b></p>${q.t=='mcq'?q.opts.map((o,i)=>`<p class="sm ${i==q.ok?'':'mut'}">${i==q.ok?'✓':'○'} ${esc(o)}</p>`).join(''):'<p class="sm mut">(written answer)</p>'}`).join('')||'<p class="mut">No questions to preview.</p>'}<div class="bar"><button class="btn sec" onclick="S.modal=null;R()">Close</button></div>`}
+if(m.f=='rd'){const r=S.res.find(x=>x.id==m.id);b=`<h3>${r.stu}</h3><p class="mut">${esc(ex(r.exam).title)}</p><p>Status: ${bd(r.st)}</p><p>Score: <b>${r.sc}</b></p><p class="sm mut">Question-level details would come from the backend.</p><div class="bar"><button class="btn sec" onclick="S.modal=null;R()">Close</button></div>`}
+if(m.f=='u'){const u=m.id?S.users.find(x=>x.id==m.id):{name:'',email:'',role:'Student'};b=`<h3>${m.id?'Edit user':'Add user'}</h3><label for="un">Name</label><input id="un" value="${esc(u.name)}"><label for="um">Email</label><input id="um" value="${esc(u.email)}"><label for="ur">Role</label><select id="ur">${['Student','Examiner','Administrator'].map(r=>`<option ${u.role==r?'selected':''}>${r}</option>`).join('')}</select><div class="err" id="ue"></div><div class="bar"><button class="btn sec" onclick="S.modal=null;R()">Cancel</button><button class="btn" onclick="saveU()">Save</button></div>`}
+return `<div class="ov"><div class="dlg" role="dialog">${b}</div></div>`}
+R();
+</script></body></html>
