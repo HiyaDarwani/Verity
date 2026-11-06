@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import helmet from 'helmet';
+import * as helmet from 'helmet';
 import { Prisma } from './generated/prisma/client.js';
 import { prisma } from './db/prisma.js';
 import { apiLimiter } from './middleware/rateLimit.js';
@@ -15,7 +15,7 @@ import { proctoringRouter } from './modules/proctoring/routes.js';
 import { activityRouter } from './modules/activities/routes.js';
 export const app = express();
 app.disable('x-powered-by');
-app.use(helmet());
+app.use(helmet.default());
 app.use(cors({ origin: env.CORS_ORIGIN.split(',').map((x) => x.trim()) }));
 app.use(express.json({ limit: '256kb' }));
 app.use('/api', apiLimiter);
@@ -37,5 +37,6 @@ app.use('/api/proctoring-events', proctoringRouter);
 app.use('/api/activities', activityRouter);
 app.use(notFound);
 app.use(errorHandler);
+
 
 
