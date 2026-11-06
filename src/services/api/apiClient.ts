@@ -28,9 +28,12 @@ class ApiClient {
   private baseUrl: string;
   private token: string | null = null;
 
-  constructor(baseUrl: string = import.meta.env.VITE_API_BASE_URL || '/api') {
-    this.baseUrl = baseUrl.replace(/\/$/, '');
-  }
+  constructor(baseUrl: string = import.meta.env.VITE_API_BASE_URL || 'https://verity-api-topaz.vercel.app') {
+  const normalizedBaseUrl = baseUrl.replace(/\/+$/, '');
+  this.baseUrl = normalizedBaseUrl.endsWith('/api')
+    ? normalizedBaseUrl
+    : `${normalizedBaseUrl}/api`;
+}
 
   public setToken(token: string | null): void {
     this.token = token;
