@@ -52,7 +52,7 @@ class ApiClient {
       });
     }
 
-    return url.pathname + url.search;
+    return url.toString();
   }
 
   public async request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
